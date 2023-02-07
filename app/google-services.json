@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "6810466291",
+    "project_id": "dummysport-77ec7",
+    "storage_bucket": "dummysport-77ec7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:6810466291:android:15df617d495060a6f88486",
+        "android_client_info": {
+          "package_name": "com.example.dummysport"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "6810466291-u96a61nq9ncgn8ateh6q9ci80nmpk8eo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0AG0ESE3W-CcA50-Q0vsI2lw6ubp0nnM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "6810466291-u96a61nq9ncgn8ateh6q9ci80nmpk8eo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
