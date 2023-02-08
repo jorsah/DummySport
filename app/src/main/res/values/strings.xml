@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">DummySport</string>
+    <string name="internet_connection_required">Internet connection required to continue.</string>
 </resources>

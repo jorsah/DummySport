@@ -4,22 +4,22 @@ import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
 import android.webkit.WebView
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.dummysport.app.*
+import com.example.dummysport.app.InternetNotConnected
+import com.example.dummysport.app.LoadWebUrl
+import com.example.dummysport.app.isNetworkAvailable
 import com.example.dummysport.app.laliga.DummyScreen
+import com.example.dummysport.app.showWV
 import com.example.dummysport.remoteconfig.RemoteConfig
 import com.example.dummysport.sharedprefs.SharedPreferencesUtil
 import com.example.dummysport.ui.theme.DummySportTheme
+import com.example.dummysport.utils.FirebaseResult
 
 
 class MainActivity : ComponentActivity() {
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
         if (event.action == KeyEvent.ACTION_DOWN) {
             when (keyCode) {
                 KeyEvent.KEYCODE_BACK -> {
-                    return if (webView.canGoBack()) {
+                    return if (this::webView.isInitialized && webView.canGoBack()) {
                         webView.goBack()
                         true
                     } else
@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val url = mutableStateOf("")
+        val screenState = mutableStateOf<FirebaseResult<String>>(FirebaseResult.Loading)
 
         SharedPreferencesUtil.loadSharedPrefs(this)
         RemoteConfig.loadSettings()
@@ -52,52 +52,59 @@ class MainActivity : ComponentActivity() {
             when (it) {
                 RemoteConfig.FetchStatus.SUCCESSFUL -> {
                     val validatedUrl = RemoteConfig.url
-                    if (validatedUrl.isNotEmpty()){
+
+                    if (validatedUrl.isNotEmpty()) {
                         SharedPreferencesUtil.saveLink(validatedUrl)
                     }
-                    url.value = validatedUrl
+
+                    screenState.value = FirebaseResult.OpenWeb(validatedUrl)
+                }
+                RemoteConfig.FetchStatus.LOADING -> {
+                    screenState.value = FirebaseResult.Loading
                 }
                 else -> {
+                    if (isNetworkAvailable(this)) {
+                        screenState.value = FirebaseResult.OpenDummyScreen
+                    } else {
+                        screenState.value = FirebaseResult.OpenInternetConnectionScreen
+                    }
                     Log.d("FirebaseError", "onCreate: Error")
                 }
             }
         }
+
 
         setContent {
             DummySportTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
                 ) {
-                    if (url.value.isEmpty() || showWV(this)) {
-                        if (!isInternetAvailable()) {
-                            Toast.makeText(
-                                this,
-                                "- для продолжения необходимо подключение к сети ",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                    when (screenState.value) {
+                        is FirebaseResult.OpenWeb -> {
+                            val url = (screenState.value as FirebaseResult.OpenWeb<String>).data
+                            if (url.isEmpty() || showWV(this)) {
+                                if (isNetworkAvailable(this)) {
+                                    screenState.value = FirebaseResult.OpenDummyScreen
+                                } else {
+                                    screenState.value = FirebaseResult.OpenInternetConnectionScreen
+                                }
+                            } else {
+                                LoadWebUrl(url = url, context = this) { webView = it }
+                            }
                         }
-                        DummyScreen()
-                    } else {
-                        LoadWebUrl(url = url.value, context = this) {
-                            webView = it
+                        FirebaseResult.OpenDummyScreen -> {
+                            DummyScreen()
+                        }
+                        FirebaseResult.Loading -> {}
+                        FirebaseResult.OpenInternetConnectionScreen -> {
+                            InternetNotConnected()
                         }
                     }
                 }
+
             }
         }
-    }
 
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    DummySportTheme {
-        Greeting("Android")
     }
 }
