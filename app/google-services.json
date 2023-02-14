@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "6810466291",
-    "project_id": "dummysport-77ec7",
-    "storage_bucket": "dummysport-77ec7.appspot.com"
+    "project_number": "467457298352",
+    "project_id": "zhosa54-90b79",
+    "storage_bucket": "zhosa54-90b79.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:6810466291:android:15df617d495060a6f88486",
+        "mobilesdk_app_id": "1:467457298352:android:2a3a464c9ff3ce5c479075",
         "android_client_info": {
-          "package_name": "com.example.dummysport"
+          "package_name": "calc.win.betboom"
         }
       },
       "oauth_client": [
         {
-          "client_id": "6810466291-u96a61nq9ncgn8ateh6q9ci80nmpk8eo.apps.googleusercontent.com",
+          "client_id": "467457298352-ak0ajubeq5svigodbro3pr8ph4htrks4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD0AG0ESE3W-CcA50-Q0vsI2lw6ubp0nnM"
+          "current_key": "AIzaSyAPbdead1TE99cq9BKBG__bCESZ3xoOm7A"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "6810466291-u96a61nq9ncgn8ateh6q9ci80nmpk8eo.apps.googleusercontent.com",
+              "client_id": "467457298352-ak0ajubeq5svigodbro3pr8ph4htrks4.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

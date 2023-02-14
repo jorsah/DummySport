@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.dummysport'
+    namespace 'calc.win.betboom'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.dummysport"
+        applicationId "calc.win.betboom"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -49,6 +49,7 @@ android {
 
 dependencies {
     implementation platform('com.google.firebase:firebase-bom:30.1.0')
+    implementation 'com.onesignal:OneSignal:[4.0.0, 4.99.99]'
 
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation 'com.google.firebase:firebase-config-ktx'
